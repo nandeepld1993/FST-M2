@@ -1,0 +1,21 @@
+#Drop old tables
+DROP TABLE employee;
+
+# Create a table to store results
+CREATE TABLE employee (id INT, name STRING, dept STRING, yoj INT, salary INT)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' TBLPROPERTIES ("skip.header.line.count"="1");
+
+# Load data into the employee table
+LOAD DATA LOCAL INPATH '/root/EmpData.csv' INTO TABLE employee;
+
+# Run queries on employee table
+SELECT * FROM employee;
+SELECT COUNT(*) FROM employee;
+
+#Exports to HDFS directory
+INSERT OVERWRITE DIRECTORY '/user/nandeep/hiveoutput' ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+SELECT * FROM employee;
+
+#Exports to Local directory
+INSERT OVERWRITE LOCAL DIRECTORY '/root/hiveoutput' ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+SELECT COUNT(*) FROM employee;
